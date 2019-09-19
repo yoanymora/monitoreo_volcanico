@@ -1,20 +1,20 @@
-//Leer LM35:Sensor de temperatura
-
-#define lm35PIN A0   //pin conectado a LM35
-float raw_temp = 0, temp = 0; //variables globales para leer adc y obtener temperatura
+#define lm35 A0                                     //pin conectado a LM35
+float raw_temp = 0, temperatura = 0;                //variables globales para leer adc y obtener temperatura
+unsigned long tiempo = 0;
+char delimitador_1 = ":";
+char delimitador_2 = ",";
+char inicio_cadena = "{";
+char fin_cadena = "}";
 
 void setup() {
   Serial.begin(9600);
-  analogReference(INTERNAL);
-  pinMode(lm35PIN, INPUT);
+  pinMode(lm35, INPUT);
 }
 
 void loop() {
-  raw_temp = analogRead(lm35PIN); //leer sensor de temperatura
-  temp = ((raw_temp) * (500.0)) / 1023.0;//conversion de adc
-  Serial.print("Lectura ADC: ");
-  Serial.println(raw_temp);//imprimir en consola
-  Serial.print("Temperatura: ");
-  Serial.println(temp);//imprimir en consola
+  tiempo = millis();
+  raw_temp = analogRead(lm35);                      //leer sensor de temperatura
+  temperatura = ((raw_temp) * (500.0)) / 1023.0;    //conversion de adc
+  Serial.println("{milisegundos:" + String(tiempo) + "," + "temperatura:" + String(temperatura) + "}");
   delay(2000);
 }
